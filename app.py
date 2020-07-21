@@ -1,6 +1,6 @@
 def apples():
     return print("apples")
 apples()
-def fiveapples():
-    return print("5 apples")
-fiveapples()
+def fourapples():
+    return print("4 apples")
+fourapples()
