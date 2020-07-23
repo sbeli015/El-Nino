@@ -1,5 +1,5 @@
 {%extends "base.html" %}
-{%block title%}Adventurer{%endblock%}
+{%block title%}Choose Your Path{%endblock%}
 {%block content%}
 {% with messages =get_flashed_messages()%}
   {% if messages %}
@@ -8,5 +8,8 @@
     {% endfor %}
   {%endif%}
 {%endwith%}
-<p> Welcome, {{user}} </p>
+<form action="#" method="POST">
+  <input type="stance" name="stance" placeholder="Enter Stance" value="{{stance if stance}}"/>
+  <input type="submit" value="submit"/>
+</form>
 {% endblock %}

@@ -4,6 +4,8 @@ from flask_mysqldb import MySQL
 app=Flask(__name__)
 app.secret_key = "password"
 
+db = MySQL(app)
+
 @app.route("/")
 def sendhome():
     return redirect(url_for("home"))
@@ -25,11 +27,21 @@ def login():
             return redirect(url_for("user"))
         return render_template("log.html")
 
-@app.route("/user")
+@app.route("/user", methods=["POST", "GET"])
 def user():
+    stance= None
     if "user" in session:
         user = session["user"]
-        return render_template("user.html",user=user)
+
+        if request.method == "POST":
+            stance = request.form["stance"]
+            session["stance"] = stance
+            flash("Your stance has been entered!")
+        else:
+            if "stance" in session:
+                stance = session["stance"]
+
+        return render_template("user.html",stance=stance)
     else:
         flash("You aren't a Member yet.")
         return redirect(url_for("login"))
@@ -40,6 +52,7 @@ def logout():
         user = session["user"]
         flash(f"Hope you enjoyed your stay, {user}!", "info")
     session.pop("user", None)
+    session.pop("class", None)
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
